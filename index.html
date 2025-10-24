@@ -3,9 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Filhas da Luz</title>
+  <title>Filhas da Luz — Agenda 2026</title>
 
+  <!-- ✨ Fontes -->
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+
+  <!-- 🎨 Estilo principal -->
   <link rel="stylesheet" href="styles.css" />
 </head>
 
@@ -22,16 +25,18 @@
       </div>
     </section>
 
-    <!--  CABEÇALHO INTERATIVO -->
+    <!-- ✨ CABEÇALHO INTERATIVO -->
     <header class="header no-print">
       <h1 class="titulo">Filhas da Luz — Agenda 2026</h1>
       <p class="sub">Guiada pela Intuição ✨ por Mariah Cartomante</p>
 
+      <!-- Navegação dos meses -->
       <nav class="meses" id="nav-meses"></nav>
 
+      <!-- Botões de ação -->
       <div class="acoes">
         <button id="irTopo">⬆ Topo</button>
-        <button id="irMesAtual">📅 Mês atual</button>
+        <button id="irMesAtual">📅 Mês Atual</button>
         <button id="imprimir">🖨️ Gerar PDF / Imprimir</button>
       </div>
     </header>
@@ -41,7 +46,7 @@
       <h2>Ritual de Abertura</h2>
       <p class="texto">
         Respire fundo. Traga a luz para o coração e intencione:<br>
-        “Que 2026 seja guiado pela minha melhor versão, com coragem, leveza e amor.”<br><br>
+        <em>“Que 2026 seja guiado pela minha melhor versão, com coragem, leveza e amor.”</em><br><br>
         Escreva aqui suas intenções, sonhos e desejos espirituais para o novo ciclo:
       </p>
 
@@ -61,24 +66,28 @@
       </div>
     </main>
 
-    <!-- 🌙 CONTRA-CAPA -->
+    <!-- 🌙 CONTRACAPA -->
     <section class="page page--contracapa" id="contracapa">
       <div class="cover-content verso">
         <div class="sigil">☀️☾</div>
-        <p class="creditos">Feita com amor por Mariah Cartomante • Filhos da Luz • 2026</p>
+        <p class="creditos">
+          Feita com amor por <strong>Mariah Cartomante</strong><br/>
+          Filhas da Luz • Agenda 2026
+        </p>
       </div>
     </section>
+
   </div>
 
   <!-- ⚙️ Script principal -->
   <script src="agenda.js"></script>
 
-  <!-- ⚙️ Salvamento automático das intenções -->
+  <!-- 💾 Salvamento automático das intenções -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const blocoIntencoes = document.getElementById("intencoes");
       if (blocoIntencoes) {
-        const key = "filhosdaluz:intencoes2026";
+        const key = "filhasdaluz:intencoes2026";
         const saved = localStorage.getItem(key);
         if (saved) blocoIntencoes.innerHTML = saved;
 
@@ -91,4 +100,3 @@
 
 </body>
 </html>
-
