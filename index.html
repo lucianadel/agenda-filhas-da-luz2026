@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Filhas da Luz</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div class="agenda">
+
+    <!-- 🌕 CAPA -->
+    <section class="page page--cover" id="capa">
+      <div class="cover-content">
+        <h1>Filhas da Luz</h1>
+        <h2>Agenda 2026</h2>
+        <p class="byline">Guiada pela Intuição <br/>por Mariah Cartomante</p>
+        <div class="sigil">☀️☾</div>
+      </div>
+    </section>
+
+    <!--  CABEÇALHO INTERATIVO -->
+    <header class="header no-print">
+      <h1 class="titulo">Filhas da Luz — Agenda 2026</h1>
+      <p class="sub">Guiada pela Intuição ✨ por Mariah Cartomante</p>
+
+      <nav class="meses" id="nav-meses"></nav>
+
+      <div class="acoes">
+        <button id="irTopo">⬆ Topo</button>
+        <button id="irMesAtual">📅 Mês atual</button>
+        <button id="imprimir">🖨️ Gerar PDF / Imprimir</button>
+      </div>
+    </header>
+
+    <!-- 💫 RITUAL DE ABERTURA -->
+    <section class="page page--abertura" id="abertura">
+      <h2>Ritual de Abertura</h2>
+      <p class="texto">
+        Respire fundo. Traga a luz para o coração e intencione:<br>
+        “Que 2026 seja guiado pela minha melhor versão, com coragem, leveza e amor.”<br><br>
+        Escreva aqui suas intenções, sonhos e desejos espirituais para o novo ciclo:
+      </p>
+
+      <!-- Campo editável -->
+      <div class="bloco-linhas" id="intencoes" contenteditable="true">
+         Aqui você pode escrever livremente suas intenções, sonhos e metas para 2026. 
+      </div>
+
+      <div class="marca-agua">☀️☾</div>
+    </section>
+
+    <!-- 📖 CONTEÚDO PRINCIPAL (GERADO VIA JS) -->
+    <main class="paginas" id="paginas">
+      <div class="loading no-print">
+        <div class="spinner"></div>
+        <p>Carregando as bênçãos de 2026…</p>
+      </div>
+    </main>
+
+    <!-- 🌙 CONTRA-CAPA -->
+    <section class="page page--contracapa" id="contracapa">
+      <div class="cover-content verso">
+        <div class="sigil">☀️☾</div>
+        <p class="creditos">Feita com amor por Mariah Cartomante • Filhos da Luz • 2026</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- ⚙️ Script principal -->
+  <script src="agenda.js"></script>
+
+  <!-- ⚙️ Salvamento automático das intenções -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const blocoIntencoes = document.getElementById("intencoes");
+      if (blocoIntencoes) {
+        const key = "filhosdaluz:intencoes2026";
+        const saved = localStorage.getItem(key);
+        if (saved) blocoIntencoes.innerHTML = saved;
+
+        blocoIntencoes.addEventListener("input", () => {
+          localStorage.setItem(key, blocoIntencoes.innerHTML);
+        });
+      }
+    });
+  </script>
+
+</body>
+</html>
+

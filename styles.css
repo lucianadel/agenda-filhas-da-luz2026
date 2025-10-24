@@ -1,0 +1,133 @@
+:root{
+  /* Tema Lilás Vibrante – espiritual e suave */
+  --lilas:#a463f2;          /* lilás principal */
+  --lilas-escuro:#7933c2;   /* lilás profundo para detalhes */
+  --dourado:#d4af37;        /* dourado suave */
+  --bege:#f8f5ff;           /* fundo lilás-claro */
+  --papel:#ffffff;          /* branco puro */
+  --tinta:#2a153b;          /* texto violeta escuro */
+  --linha:#c9b6f1;          /* linhas suaves lilases */
+}
+*{box-sizing:border-box}
+body{
+  margin:0; color:var(--tinta);
+  font-family:"Poppins",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  background: radial-gradient(circle at 50% -20%, #c9a7f7 0%, #9c6fe8 50%, #5e3399 100%);
+}
+.agenda{
+  max-width:1100px; margin:32px auto; background:var(--papel); border-radius:18px;
+  box-shadow:0 24px 60px rgba(0,0,0,.25); overflow:hidden; position:relative;
+}
+
+/* CAPA */
+.page{
+  page-break-after: always;
+  min-height: 148mm;
+  padding: 18mm 14mm;
+  background: var(--papel);
+}
+.page--cover, .page--contracapa{
+  display:flex; align-items:center; justify-content:center;
+  background: radial-gradient(circle at 50% 20%, #f4e9ff 0%, #fff 70%);
+}
+.cover-content{ text-align:center; color:var(--lilas-escuro) }
+.cover-content h1{
+  font-family:"Cormorant Garamond",serif; font-size:48px; margin:0; text-shadow:0 1px var(--dourado);
+}
+.cover-content h2{ font-family:"Cormorant Garamond",serif; font-size:28px; margin:8px 0 0 }
+.cover-content .byline{ color:var(--dourado); margin:12px 0 }
+.cover-content .sigil{ font-size:80px; opacity:.15; margin-top:10px; color:var(--lilas-escuro);}
+.cover-content.verso .sigil{ font-size:64px; }
+.creditos{ color:#6b5780; text-align:center; margin-top:12px }
+
+/* ABERTURA */
+.page--abertura h2{
+  font-family:"Cormorant Garamond",serif; color:var(--lilas-escuro); font-size:28px; margin:0 0 10px;
+}
+.page--abertura .texto{ color:#6e5a8b; margin:0 0 8px }
+.page--abertura .bloco-linhas{
+  border:1px solid #ccbaf1; border-radius:10px; background:#faf8ff; padding:10px 12px; min-height:70mm;
+}
+.page--abertura .linha{ height:20px; border-bottom:1px dashed var(--linha) }
+.page--abertura .marca-agua{
+  position:absolute; right:14mm; bottom:12mm; font-size:72px; color:#bda2f533;
+}
+
+/* CABEÇALHO */
+.header{
+  padding:22px 22px 12px; text-align:center; position:sticky; top:0; z-index:5;
+  background:linear-gradient(180deg,var(--papel) 70%, rgba(255,255,255,.9) 100%);
+  border-bottom:1px solid #e1d5ff;
+}
+.titulo{
+  font-family:"Cormorant Garamond",serif; color:var(--lilas-escuro); font-size:2.2rem; margin:0;
+  text-shadow:0 1px var(--dourado);
+}
+.sub{color:var(--dourado); margin:.4rem 0 0}
+.acoes{display:flex; gap:8px; justify-content:center; margin-top:10px}
+.acoes button{
+  background:var(--lilas-escuro); color:#fff; border:none; border-radius:10px; padding:8px 12px; cursor:pointer;
+}
+.acoes button:hover{background:var(--lilas); color:#fff}
+
+/* MESES */
+.meses{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin:12px auto 8px; padding:0 16px}
+.mes{
+  border:1px solid #d3c3ff; background:#f6f1ff; color:var(--lilas-escuro);
+  border-radius:10px; padding:8px 12px; font-weight:600; cursor:pointer;
+}
+.mes.active{background:var(--lilas-escuro); color:#fff}
+
+/* CONTEÚDO */
+.paginas{
+  max-width: 980px;
+  margin: 0 auto;
+  height: calc(100vh - 260px);
+  overflow:auto; padding:12px 18px 24px;
+  background: var(--bege);
+}
+.loading{display:grid; place-items:center; padding:40px 0}
+.spinner{width:36px;height:36px;border-radius:50%;border:3px solid #e1d5ff;border-top-color:var(--lilas-escuro);animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* DIVISÓRIA DE MÊS */
+.divisoria-mes{margin:12px auto 16px; max-width:820px; page-break-before: always;}
+.cartao-mes{
+  background:var(--bege); border-left:8px solid var(--lilas-escuro); border-radius:14px; padding:18px 20px;
+  box-shadow: inset 0 0 10px rgba(0,0,0,.06), 0 8px 18px rgba(0,0,0,.12);
+}
+.cartao-mes h2{margin:0; font-family:"Cormorant Garamond",serif; color:var(--lilas-escuro); font-size:1.7rem}
+.cartao-mes p{margin:.5rem 0 0; color:#6a4b8a}
+
+/* PÁGINAS DIÁRIAS */
+.pagina{max-width:820px; margin:12px auto;}
+.card-dia{
+  background:var(--papel); border-radius:14px; padding:16px;
+  border-left:6px solid var(--lilas-escuro);
+  box-shadow: inset 0 0 10px rgba(0,0,0,.06), 0 8px 18px rgba(0,0,0,.12);
+}
+.topo-dia{display:flex; justify-content:space-between; margin-bottom:10px}
+.data-dia{color:var(--lilas-escuro); font-weight:700;}
+.carta{text-align:right; color:#6a4b8a;}
+.thumb{
+  width:72px; height:96px; border:1px solid #d3c3ff; border-radius:8px;
+  background:#faf8ff center/cover; display:inline-block;
+}
+.label{font-weight:600; color:var(--lilas-escuro); margin:10px 0 6px}
+.linhas,.tarefas{
+  border:1px solid #d6c2fa; border-radius:10px; background:#f9f7ff; padding:10px 12px; min-height:110px;
+}
+.tarefas{min-height:140px}
+
+/* IMPRESSÃO */
+@page{size:A5; margin:14mm;}
+@page:left{margin-left:20mm; margin-right:10mm;}
+@page:right{margin-left:10mm; margin-right:20mm;}
+@media print{
+  body{background:#fff}
+  .no-print{display:none!important}
+  .agenda{box-shadow:none;border-radius:0}
+  .pagina{page-break-before:always}
+  .divisoria-mes{page-break-before:always}
+  .page{display:block}
+}
