@@ -154,7 +154,8 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
 
             <div class="label">Mensagem de Mariah</div>
-            <div class="linhas" contenteditable data-field="mensagem">✨ ${mensagemDia} ✨</div>
+<div class="linhas mensagem-fixa">✨ ${mensagemDia} ✨</div>
+
 
             <div class="label">🙏 Gratidão do Dia</div>
             <div class="linhas" contenteditable data-field="gratidao"></div>
