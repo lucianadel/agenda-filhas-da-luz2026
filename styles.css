@@ -224,4 +224,147 @@ body{
   opacity: 0.8;
 }
 
+/* 🌸 Ajustes para tablets */
+@media (max-width: 1024px) {
+  .dia {
+    grid-template-columns: 150px 1fr;
+    gap: 16px;
+    padding: 12px;
+  }
+
+  .thumb {
+    width: 70px;
+    height: 95px;
+  }
+
+  .col-dir {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .titulo {
+    font-size: 1.4rem;
+  }
+
+  .acoes {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+/* 🌷 Ajustes para celulares (até 700px) */
+@media (max-width: 700px) {
+  body {
+    font-size: 15px;
+  }
+
+  .header {
+    padding: 14px 8px;
+  }
+
+  .titulo {
+    font-size: 1.3rem;
+    line-height: 1.2;
+  }
+
+  .sub {
+    font-size: 0.9rem;
+  }
+
+  .acoes {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .btn-nav {
+    width: 100%;
+    font-size: 0.95rem;
+  }
+
+  .semana {
+    padding: 12px;
+    border-radius: 10px;
+  }
+
+  .grid-semana {
+    gap: 12px;
+  }
+
+  .dia {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .bloco-esq {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .thumb {
+    width: 65px;
+    height: 90px;
+  }
+
+  .nome-carta {
+    font-size: 0.85rem;
+  }
+
+  .faixa-mariah {
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 0.9rem;
+    gap: 4px;
+  }
+
+  .col-dir {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .area {
+    min-height: 80px;
+    font-size: 0.9rem;
+  }
+
+  .label {
+    font-size: 0.85rem;
+  }
+
+  .creditos {
+    font-size: 0.8rem;
+    padding: 12px;
+  }
+}
+
+/* 🌼 Extra pequeno (até 400px) */
+@media (max-width: 400px) {
+  .titulo {
+    font-size: 1.1rem;
+  }
+
+  .faixa-mariah {
+    font-size: 0.85rem;
+  }
+
+  .thumb {
+    width: 55px;
+    height: 75px;
+  }
+
+  .area {
+    font-size: 0.85rem;
+    min-height: 70px;
+  }
+
+  .label {
+    font-size: 0.8rem;
+  }
+}
+
+
 
