@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     "O Sol","A Lua","A Chave","Os Peixes","A Âncora","A Cruz"
   ];
 
-  // ---------- Funções utilitárias ----------
+  // ---------- utilitários ----------
   const pad2 = n => String(n).padStart(2, "0");
   const storageKey = (y, m, d, f) => `filhasdaluz:${y}-${pad2(m)}-${pad2(d)}:${f}`;
   const nomeMes = i => [
@@ -23,30 +23,27 @@ document.addEventListener("DOMContentLoaded", () => {
     "Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"
   ][i];
 
-  function seededIndex(seed, modulo) {
-    let x = seed | 0;
-    x ^= x << 13; x ^= x >>> 17; x ^= x << 5;
-    return Math.abs(x) % modulo;
-  }
-
+  // --- CORRIGIDO: semanas começam no dia 1º de janeiro, mesmo se for no meio da semana
   function getWeeksOfYear(year) {
     const start = new Date(year, 0, 1);
     const end = new Date(year, 11, 31);
     const weeks = [];
     let cursor = new Date(start);
-    while (cursor.getDay() !== 1) cursor.setDate(cursor.getDate() + 1);
+
     while (cursor <= end) {
       const week = [];
       for (let i = 0; i < 7; i++) {
-        week.push(new Date(cursor));
-        cursor.setDate(cursor.getDate() + 1);
+        if (cursor <= end) {
+          week.push(new Date(cursor));
+          cursor.setDate(cursor.getDate() + 1);
+        }
       }
       weeks.push(week);
     }
     return weeks;
   }
 
-  // ---------- Frases da Mensagem de Mariah ----------
+  // ---------- mensagens ----------
   const ABERTURAS = [
     "Mariah te lembra:",
     "Mensagem de Mariah:",
@@ -108,25 +105,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function mensagemMariah(date, cartaNome) {
     const seed = Number(`${date.getFullYear()}${pad2(date.getMonth()+1)}${pad2(date.getDate())}`);
-    const ab = ABERTURAS[seededIndex(seed + 3, ABERTURAS.length)];
-    const to = TONICA[seededIndex(seed + 11, TONICA.length)];
+    const ab = ABERTURAS[seed % ABERTURAS.length];
+    const to = TONICA[seed % TONICA.length];
     const insight = INSIGHTS_CARTA[(date.getDate() - 1) % 36];
     return `${ab} ${cartaNome} ${insight} ${to.charAt(0).toUpperCase() + to.slice(1)}.`;
   }
 
-  // ---------- Renderização das semanas ----------
+  // ---------- renderização ----------
   const weeks = getWeeksOfYear(YEAR);
   const out = [];
 
   weeks.forEach((week, wi) => {
-    const inicio = week[0], fim = week[6];
+    const inicio = week[0], fim = week[week.length - 1];
     const tituloMes = nomeMes(inicio.getMonth());
     const tituloSemana = `Semana ${wi + 1} • ${pad2(inicio.getDate())}/${pad2(inicio.getMonth()+1)} a ${pad2(fim.getDate())}/${pad2(fim.getMonth()+1)}`;
 
     const diasHtml = week.map(date => {
       const dataFmt = `${pad2(date.getDate())}/${pad2(date.getMonth()+1)}/${date.getFullYear()}`;
       const semana = date.toLocaleDateString("pt-BR",{weekday:"short"}).toUpperCase();
-      const cartaIdx = ((date.getDate()-1) % 36);
+      const cartaIdx = ((date.getDate() - 1) % 36);
       const cartaNome = CARTAS[cartaIdx];
       const imagemCarta = `imagens/carta${cartaIdx+1}.jpg`;
       const msg = mensagemMariah(date, cartaNome);
@@ -173,7 +170,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   elContainer.innerHTML = out.join("");
 
-  // ---------- Salvamento local ----------
+  // ---------- persistência ----------
   function restaurarCampos(weekIndex){
     const semanaEl = document.querySelector(`.semana[data-week-index="${weekIndex}"]`);
     if(!semanaEl) return;
@@ -188,12 +185,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ---------- Navegação ----------
+  // ---------- navegação ----------
   let currentWeek = 0;
   function showWeek(i){
     currentWeek = Math.max(0, Math.min(weeks.length-1, i));
     document.querySelectorAll(".semana").forEach((s,idx)=>s.classList.toggle("active", idx===currentWeek));
-    const w = weeks[currentWeek], ini = w[0], fim = w[6];
+    const w = weeks[currentWeek], ini = w[0], fim = w[w.length - 1];
     elIndicador.textContent = `${nomeMes(ini.getMonth())} ${YEAR} — ${pad2(ini.getDate())}/${pad2(ini.getMonth()+1)} a ${pad2(fim.getDate())}/${pad2(fim.getMonth()+1)}`;
     restaurarCampos(currentWeek);
   }
@@ -203,7 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   showWeek(0);
 
-  // ---------- 🩵 AVISO DE SALVAMENTO LOCAL ----------
+  // ---------- aviso ----------
   if (!localStorage.getItem("avisoLocalMostrado")) {
     setTimeout(() => {
       alert("💾 As informações que você escrever ficarão salvas apenas neste dispositivo.\nSe limpar o histórico ou os dados do navegador, elas serão apagadas.");
