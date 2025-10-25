@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const elContainer = document.getElementById("containerSemanas");
   const btnPrev = document.getElementById("semanaAnterior");
   const btnNext = document.getElementById("semanaProxima");
-  const btnImprimir = document.getElementById("imprimir");
   const elIndicador = document.getElementById("indicadorSemana");
 
   const YEAR = 2026;
@@ -16,41 +15,38 @@ document.addEventListener("DOMContentLoaded", () => {
     "O Sol","A Lua","A Chave","Os Peixes","A Âncora","A Cruz"
   ];
 
-  // -------- utilitários --------
-  const pad2 = n => String(n).padStart(2,"0");
-  const storageKey = (y,m,d,f) => `filhasdaluz:${y}-${pad2(m)}-${pad2(d)}:${f}`;
-  const nomeMes = i => ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"][i];
+  // ---------- Funções utilitárias ----------
+  const pad2 = n => String(n).padStart(2, "0");
+  const storageKey = (y, m, d, f) => `filhasdaluz:${y}-${pad2(m)}-${pad2(d)}:${f}`;
+  const nomeMes = i => [
+    "Janeiro","Fevereiro","Março","Abril","Maio","Junho",
+    "Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"
+  ][i];
 
-  // rng determinístico por data (mensagens únicas, mas estáveis)
-  function seededIndex(seed, modulo){
-    let x = seed | 0; // xorshift32
+  function seededIndex(seed, modulo) {
+    let x = seed | 0;
     x ^= x << 13; x ^= x >>> 17; x ^= x << 5;
-    x = Math.abs(x);
-    return x % modulo;
+    return Math.abs(x) % modulo;
   }
 
-  // semanas a partir da primeira segunda-feira >= 01/jan/2026, até 31/dez/2026
-  function getWeeksOfYear(year){
-    const start = new Date(year,0,1);
-    const end = new Date(year,11,31);
+  function getWeeksOfYear(year) {
+    const start = new Date(year, 0, 1);
+    const end = new Date(year, 11, 31);
     const weeks = [];
     let cursor = new Date(start);
-
-    // ir até segunda-feira
-    while (cursor.getDay() !== 1) cursor.setDate(cursor.getDate()+1);
-
-    while (cursor <= end){
+    while (cursor.getDay() !== 1) cursor.setDate(cursor.getDate() + 1);
+    while (cursor <= end) {
       const week = [];
-      for (let i=0;i<7;i++){
+      for (let i = 0; i < 7; i++) {
         week.push(new Date(cursor));
-        cursor.setDate(cursor.getDate()+1);
+        cursor.setDate(cursor.getDate() + 1);
       }
       weeks.push(week);
     }
     return weeks;
   }
 
-  // -------- frases-base para a "Mensagem de Mariah" --------
+  // ---------- Frases da Mensagem de Mariah ----------
   const ABERTURAS = [
     "Mariah te lembra:",
     "Mensagem de Mariah:",
@@ -59,7 +55,6 @@ document.addEventListener("DOMContentLoaded", () => {
     "Sussurro de Mariah:",
     "Benção de Mariah:"
   ];
-
   const TONICA = [
     "confie no que floresce dentro de você",
     "a luz retorna para quem escolhe a fé",
@@ -72,8 +67,6 @@ document.addEventListener("DOMContentLoaded", () => {
     "o universo responde ao seu brilho",
     "respire e permita que o bem te encontre"
   ];
-
-  // "insights" por carta (positivos e místicos)
   const INSIGHTS_CARTA = [
     "traz movimento e boas notícias.",
     "abençoa a sorte simples e o riso leve.",
@@ -113,31 +106,24 @@ document.addEventListener("DOMContentLoaded", () => {
     "transmuta dores em fé serena."
   ];
 
-  // constrói frase única por data + carta
-  function mensagemMariah(date, cartaNome){
+  function mensagemMariah(date, cartaNome) {
     const seed = Number(`${date.getFullYear()}${pad2(date.getMonth()+1)}${pad2(date.getDate())}`);
-    const ab = ABERTURAS[seededIndex(seed+3, ABERTURAS.length)];
-    const to = TONICA[seededIndex(seed+11, TONICA.length)];
-    // mapeia carta -> insight
-    const cartaIdx = ( (date.getDate()-1) % 36 );
-    const insight = INSIGHTS_CARTA[cartaIdx];
-    const poetico = (seed % 2 === 0);
-    const fraseCarta = `${cartaNome} ${insight}`;
-    return poetico
-      ? `${ab} “${fraseCarta} E ${to}.”`
-      : `${ab} ${fraseCarta} ${to.charAt(0).toUpperCase() + to.slice(1)}.`;
+    const ab = ABERTURAS[seededIndex(seed + 3, ABERTURAS.length)];
+    const to = TONICA[seededIndex(seed + 11, TONICA.length)];
+    const insight = INSIGHTS_CARTA[(date.getDate() - 1) % 36];
+    return `${ab} ${cartaNome} ${insight} ${to.charAt(0).toUpperCase() + to.slice(1)}.`;
   }
 
-  // -------- renderização semanal (vertical) --------
+  // ---------- Renderização das semanas ----------
   const weeks = getWeeksOfYear(YEAR);
   const out = [];
 
   weeks.forEach((week, wi) => {
     const inicio = week[0], fim = week[6];
     const tituloMes = nomeMes(inicio.getMonth());
-    const tituloSemana = `Semana ${wi+1} • ${pad2(inicio.getDate())}/${pad2(inicio.getMonth()+1)} a ${pad2(fim.getDate())}/${pad2(fim.getMonth()+1)}`;
+    const tituloSemana = `Semana ${wi + 1} • ${pad2(inicio.getDate())}/${pad2(inicio.getMonth()+1)} a ${pad2(fim.getDate())}/${pad2(fim.getMonth()+1)}`;
 
-    const diasHtml = week.map(date=>{
+    const diasHtml = week.map(date => {
       const dataFmt = `${pad2(date.getDate())}/${pad2(date.getMonth()+1)}/${date.getFullYear()}`;
       const semana = date.toLocaleDateString("pt-BR",{weekday:"short"}).toUpperCase();
       const cartaIdx = ((date.getDate()-1) % 36);
@@ -153,9 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="nome-carta">${cartaNome}</div>
         </div>
 
-        <!--  Faixa de Mariah -->
         <div class="faixa-mariah">
-         
           <span class="titulo">Mensagem de Mariah</span>
           <span class="texto">${msg}</span>
         </div>
@@ -189,7 +173,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   elContainer.innerHTML = out.join("");
 
-  // -------- persistência --------
+  // ---------- Salvamento local ----------
   function restaurarCampos(weekIndex){
     const semanaEl = document.querySelector(`.semana[data-week-index="${weekIndex}"]`);
     if(!semanaEl) return;
@@ -204,7 +188,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // -------- navegação --------
+  // ---------- Navegação ----------
   let currentWeek = 0;
   function showWeek(i){
     currentWeek = Math.max(0, Math.min(weeks.length-1, i));
@@ -216,10 +200,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   btnPrev?.addEventListener("click", ()=> showWeek(currentWeek-1));
   btnNext?.addEventListener("click", ()=> showWeek(currentWeek+1));
-  btnImprimir?.addEventListener("click", ()=>{
-    alert("💡 Escolha 'Salvar como PDF', A5 (retrato) e ative 'Imprimir plano de fundo'.");
-    window.print();
-  });
 
   showWeek(0);
+
+  // ---------- 🩵 AVISO DE SALVAMENTO LOCAL ----------
+  if (!localStorage.getItem("avisoLocalMostrado")) {
+    setTimeout(() => {
+      alert("💾 As informações que você escrever ficarão salvas apenas neste dispositivo.\nSe limpar o histórico ou os dados do navegador, elas serão apagadas.");
+      localStorage.setItem("avisoLocalMostrado", "1");
+    }, 800);
+  }
 });
